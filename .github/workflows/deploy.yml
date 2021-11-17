@@ -1,8 +1,7 @@
 name: Deploy to Cloud Function
 on:
   watch:  
-    branches:
-      - main
+    types: [started]
   push:
     branches:
       - main
