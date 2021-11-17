@@ -1,0 +1,26 @@
+name: Deploy to Cloud Function
+on:
+  push:
+    branches:
+      - main
+  create:
+    tags:
+      - "v*"
+
+jobs:
+  publish-deploy:
+    name: Publish
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - id: deploy_to_dev
+        if: ${{ github.ref == 'refs/heads/main' && github.event_name != 'pull_request' }}
+        uses: google-github-actions/deploy-cloud-functions@main
+        with:
+            name: github-logging
+            memory_mb: 128
+            runtime: Node.js 14
+            entry_point: writeData
+            region: europe-west1
+            env_vars: WEBHOOK_SECRET=${{ secrets.WEBHOOK_SECRET }}
+            service_account_email: terminus-hub@appspot.gserviceaccount.com
