@@ -1,1 +1,2 @@
 TESTo
+MAGIC
